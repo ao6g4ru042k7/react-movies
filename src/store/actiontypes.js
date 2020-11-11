@@ -1,0 +1,2 @@
+export const ERROR_MES_SET = "ERROR_MES_SET"
+export const ERROR_MES_REMOVE = "ERROR_MES_REMOVE"
