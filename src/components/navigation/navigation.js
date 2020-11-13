@@ -8,6 +8,8 @@ import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Favorite from "@material-ui/icons/Favorite";
+import {useState} from 'react'
+
 const createStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -54,11 +56,22 @@ const createStyles = makeStyles((theme) => ({
     },
 }));
 
-const navigation = () => {
+const Navigation = () => {
+    const [styles,setStyles] = useState({ backgroundColor: "transparent", boxShadow: "none" })
     const classes = createStyles();
     const auth = true;
+    console.log(2222);
+    window.addEventListener("scroll", () => {
+        console.log(document.documentElement.scrollTop);
+        if (document.documentElement.scrollTop > 100) {
+            // setStyles({})
+        } else {
+            // setStyles({ backgroundColor: "transparent", boxShadow: "none" })
+        }
+    });
+
     return (
-        <AppBar position="static">
+        <AppBar style={styles} position="fixed">
             <Toolbar>
                 <Typography variant="h4" className={classes.title}>
                     Movies
@@ -102,4 +115,4 @@ const navigation = () => {
     );
 };
 
-export default navigation;
+export default Navigation;

@@ -1,0 +1,25 @@
+.swiper {
+    position: relative;
+    .next,
+    .prev {
+        position: absolute;
+        top: 50%;
+        z-index: 1;
+        transform: translate(0, -75%);
+        svg{
+            fill: #e50914;
+        }
+        @media screen and (max-width: 800px) {
+            display: none;
+        }
+    }
+    .next {
+        right: -38px;
+    }
+    .prev {
+        left: -35px;
+    }
+    .hide{
+        display: none;
+    }
+}

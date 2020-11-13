@@ -1,1 +1,2 @@
-export { setErrorMes, removeErrorMes } from "./errorHandler";
+export * from "./errorHandler";
+export * from "./movie";
