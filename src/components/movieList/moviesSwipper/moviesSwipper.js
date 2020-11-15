@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 import { useRef } from "react";
-import MoviesItem from "./moviesItem/moviesItem";
+import MovieBox from "../../movieBox/movieBox";
 import ArrowBackIos from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIos from "@material-ui/icons/ArrowForwardIos";
 import IconButton from "@material-ui/core/IconButton";
@@ -26,7 +26,7 @@ const MoviesSwipper = ({ moviesData }) => {
                 {moviesData.map((data, index) => {
                     return (
                         <SwiperSlide style={styled} key={index}>
-                            <MoviesItem data={data} />
+                            <MovieBox data={data} />
                         </SwiperSlide>
                     );
                 })}

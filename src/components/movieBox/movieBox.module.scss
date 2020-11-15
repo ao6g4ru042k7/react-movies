@@ -1,0 +1,45 @@
+.movies-box {
+    width: 220px;
+    height: 330px;
+    position: relative;
+    overflow: hidden;
+    @media screen and (max-width: 750px) {
+        width: 100vw * 220 / 750;
+        height: 100vw * 330 / 750;
+    }
+    img {
+        transition: transform 0.5s;
+    }
+    &:hover {
+        img {
+            transform: scale(1.2);
+            filter: blur(3px);
+        }
+    }
+    .favorite {
+        width: 55px;
+        height: 55px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #ef352c;
+        clip-path: polygon(100% 0, 0 0, 100% 100%);
+        .icon {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 1px;
+            top: 1px;
+            fill: white;
+        }
+    }
+}
+.title {
+    margin: 4px 0 0 0;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    @media screen and (max-width: 600px) {
+        font-size: 13px;
+    }
+}

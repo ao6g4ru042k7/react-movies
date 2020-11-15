@@ -5,16 +5,16 @@ import WithErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
 // import {useDispatch} from 'react-redux'
 // import {useEffect} from 'react'
 
-function App({ route }) {
+function App(props) {
     // const dispatch =  useDispatch()
     // useEffect(()=>{
     //   dispatch(actions.setErrorMes("ASDFAZSDF"))
     // },[dispatch])
-
+    console.log('app',props)
     return (
         <div className="App">
-            <Navigation />
-            {renderRoutes(route.routes)}
+            <Navigation {...props}/>
+            {renderRoutes(props.route.routes)}
         </div>
     );
 }

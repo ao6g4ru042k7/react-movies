@@ -8,11 +8,18 @@ import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Favorite from "@material-ui/icons/Favorite";
-import {useState} from 'react'
+import { useState, useEffect } from "react";
+import { renderRoutes } from "react-router-config";
+import { Link } from "react-router-dom";
+import { generatePath } from "react-router";
 
 const createStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+    },
+    appBar: {
+        backgroundColor: "#6d0805",
+        transition: "box-shadow .3s,background-color .3s",
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -56,22 +63,33 @@ const createStyles = makeStyles((theme) => ({
     },
 }));
 
-const Navigation = () => {
-    const [styles,setStyles] = useState({ backgroundColor: "transparent", boxShadow: "none" })
-    const classes = createStyles();
-    const auth = true;
-    console.log(2222);
-    window.addEventListener("scroll", () => {
-        console.log(document.documentElement.scrollTop);
-        if (document.documentElement.scrollTop > 100) {
-            // setStyles({})
-        } else {
-            // setStyles({ backgroundColor: "transparent", boxShadow: "none" })
-        }
+const Navigation = (props) => {
+    const [styles, setStyles] = useState({
+        backgroundColor: "transparent",
+        boxShadow: "none",
     });
+    const classes = createStyles();
+    const auth = false;
+
+    useEffect(() => {
+        const navStyleHandler = () => {
+            if (document.documentElement.scrollTop > 50) {
+                setStyles({});
+            } else {
+                setStyles({
+                    backgroundColor: "transparent",
+                    boxShadow: "none",
+                });
+            }
+        };
+        window.addEventListener("scroll", navStyleHandler);
+        return () => {
+            window.removeEventListener("scroll", navStyleHandler);
+        };
+    }, []);
 
     return (
-        <AppBar style={styles} position="fixed">
+        <AppBar className={classes.appBar} style={styles} position="fixed">
             <Toolbar>
                 <Typography variant="h4" className={classes.title}>
                     Movies
@@ -108,7 +126,16 @@ const Navigation = () => {
                         </div>
                     </>
                 ) : (
-                    <Button color="inherit">Login</Button>
+                    <Button
+                        color="inherit"
+                        onClick={() => {
+                            console.log(props);
+                            generatePath("/login")
+                            // props.history.push("/login");
+                        }}
+                    >
+                        Login
+                    </Button>
                 )}
             </Toolbar>
         </AppBar>
