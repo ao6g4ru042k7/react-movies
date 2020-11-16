@@ -1,5 +1,5 @@
 import $api from "../../api/tmdb";
-import * as actionTypes from "..//actiontypes";
+import * as actionTypes from "../actionTypes";
 import * as actions from "../actions";
 
 import { put, takeEvery } from "redux-saga/effects";

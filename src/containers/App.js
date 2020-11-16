@@ -1,16 +1,15 @@
 import { renderRoutes } from "react-router-config";
 import Navigation from "../components/navigation/navigation";
 import WithErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
-// import * as actions from '../store/actions'
-// import {useDispatch} from 'react-redux'
-// import {useEffect} from 'react'
+import {useEffect} from 'react'
+import {useDispatch} from 'react-redux'
+import * as actions from '../store/actions'
 
 function App(props) {
-    // const dispatch =  useDispatch()
-    // useEffect(()=>{
-    //   dispatch(actions.setErrorMes("ASDFAZSDF"))
-    // },[dispatch])
-    console.log('app',props)
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(actions.authCheckState())
+    },[])
     return (
         <div className="App">
             <Navigation {...props}/>

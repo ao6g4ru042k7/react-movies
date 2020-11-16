@@ -11,7 +11,7 @@ const createCustomAxios = (domain) => {
             return config;
         },
         (error) => {
-            store.dispatch(actions.setErrorMes(error));
+            store.dispatch(actions.setErrorMes(error.message));
             return Promise.reject(error);
         }
     );
@@ -21,7 +21,7 @@ const createCustomAxios = (domain) => {
             return response;
         },
         (error) => {
-            store.dispatch(actions.setErrorMes(error));
+            store.dispatch(actions.setErrorMes(error.message));
             return Promise.reject(error);
         }
     );

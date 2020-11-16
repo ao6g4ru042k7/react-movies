@@ -1,4 +1,4 @@
-import * as actionTypes from "../actiontypes";
+import * as actionTypes from "../actionTypes";
 
 export const setLatestMovie = (movies) => {
     return {

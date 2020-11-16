@@ -9,9 +9,9 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Favorite from "@material-ui/icons/Favorite";
 import { useState, useEffect } from "react";
-import { renderRoutes } from "react-router-config";
-import { Link } from "react-router-dom";
-import { generatePath } from "react-router";
+import { useHistory } from "react-router-dom";
+import { useSelector,useDispatch } from 'react-redux'
+import * as actions from '../../store/actions'
 
 const createStyles = makeStyles((theme) => ({
     root: {
@@ -20,6 +20,9 @@ const createStyles = makeStyles((theme) => ({
     appBar: {
         backgroundColor: "#6d0805",
         transition: "box-shadow .3s,background-color .3s",
+    },
+    title:{
+        cursor:"pointer"
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -69,29 +72,39 @@ const Navigation = (props) => {
         boxShadow: "none",
     });
     const classes = createStyles();
-    const auth = false;
-
+    const history = useHistory();
+    const isAuthenticated = useSelector(state=>state.auth.token!==null)
+    const dispatch = useDispatch()
     useEffect(() => {
-        const navStyleHandler = () => {
-            if (document.documentElement.scrollTop > 50) {
-                setStyles({});
-            } else {
-                setStyles({
-                    backgroundColor: "transparent",
-                    boxShadow: "none",
-                });
-            }
-        };
-        window.addEventListener("scroll", navStyleHandler);
-        return () => {
-            window.removeEventListener("scroll", navStyleHandler);
-        };
-    }, []);
-
+        if (history.location.pathname === "/login") {
+            setStyles({});
+        } else {
+            setStyles({
+                backgroundColor: "transparent",
+                boxShadow: "none",
+            });
+            const navStyleHandler = () => {
+                if (document.documentElement.scrollTop > 50) {
+                    setStyles({});
+                } else {
+                    setStyles({
+                        backgroundColor: "transparent",
+                        boxShadow: "none",
+                    });
+                }
+            };
+            window.addEventListener("scroll", navStyleHandler);
+            return () => {
+                window.removeEventListener("scroll", navStyleHandler);
+            };
+        }
+    }, [history.location.pathname]);
     return (
         <AppBar className={classes.appBar} style={styles} position="fixed">
             <Toolbar>
-                <Typography variant="h4" className={classes.title}>
+                <Typography className={classes.title} onClick={()=>{
+                    history.push("/");
+                }} variant="h4" >
                     Movies
                 </Typography>
                 <div className={classes.search}>
@@ -108,7 +121,7 @@ const Navigation = (props) => {
                     />
                 </div>
 
-                {auth ? (
+                {isAuthenticated ? (
                     <>
                         <IconButton
                             // onClick={handleMenu}
@@ -118,7 +131,9 @@ const Navigation = (props) => {
                         </IconButton>
                         <div>
                             <IconButton
-                                // onClick={handleMenu}
+                                onClick={()=>{
+                                    dispatch(actions.logout())
+                                }}
                                 color="inherit"
                             >
                                 <AccountCircle />
@@ -129,9 +144,7 @@ const Navigation = (props) => {
                     <Button
                         color="inherit"
                         onClick={() => {
-                            console.log(props);
-                            generatePath("/login")
-                            // props.history.push("/login");
+                            history.push("/login");
                         }}
                     >
                         Login
