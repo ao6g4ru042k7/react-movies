@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import * as actions from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect,useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
     return (
@@ -68,7 +68,8 @@ const Login = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const error = useSelector((state) => state.auth.error);
-    const history = useHistory()
+    const history = useHistory();
+    const isLogin = history.location.pathname === "/login";
     const [controls, setControls] = useState({
         email: {
             value: "",
@@ -82,14 +83,20 @@ const Login = () => {
             errorMes: "6 characters minimum",
             valid: false,
         },
+        checkPassword: {
+            value: "",
+            error: false,
+            errorMes: "Incorrect entry",
+            valid: false,
+        },
     });
     const isAuthenticated = useSelector((state) => state.auth.token !== null);
     const authRedirectPath = useSelector((state) => state.auth.authRedirectPath);
- 
+
     useEffect(() => {
         if (isAuthenticated) {
-            history.push(authRedirectPath)
-        }else{
+            history.push(authRedirectPath);
+        } else {
             dispatch(actions.logout());
         }
     }, [isAuthenticated]);
@@ -120,10 +127,26 @@ const Login = () => {
             },
         });
     };
+    const checkPasswordHandler = (e) => {
+        let valid = e.target.value === controls.password.value;
+        setControls({
+            ...controls,
+            checkPassword: {
+                ...controls.checkPassword,
+                value: e.target.value,
+                error: Boolean(e.target.value) && !valid,
+                valid,
+            },
+        });
+    };
     const LoginHandler = (e) => {
         e.preventDefault();
         if (controls.email.valid && controls.password.valid) {
-            dispatch(actions.auth(controls.email.value, controls.password.value, false));
+            if (isLogin) {
+                dispatch(actions.auth(controls.email.value, controls.password.value, false));
+            } else if (controls.checkPassword.valid) {
+                dispatch(actions.auth(controls.email.value, controls.password.value, true));
+            }
         }
     };
 
@@ -136,13 +159,14 @@ const Login = () => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        {isLogin ? "Sign in" : "Sign up"}
                     </Typography>
                     <form className={classes.form} noValidate>
                         <TextField value={controls.email.value} error={controls.email.error} helperText={controls.email.error && controls.email.errorMes} onChange={emailHandler} variant="outlined" margin="normal" required fullWidth label="Email Address" name="email" autoComplete="email" autoFocus />
                         <TextField value={controls.password.value} error={controls.password.error} helperText={controls.password.error && controls.password.errorMes} onChange={passwordHandler} variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" autoComplete="current-password" />
+                        {isLogin ? null : <TextField value={controls.checkPassword.value} error={controls.checkPassword.error} helperText={controls.checkPassword.error && controls.checkPassword.errorMes} onChange={checkPasswordHandler} variant="outlined" margin="normal" required fullWidth name="checkPassword" label="Check Password" type="password" />}
                         <Button onClick={LoginHandler} type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                            Sign In
+                            {isLogin ? "Sign in" : "Sign up"}
                         </Button>
                         <Typography variant="body2" color="secondary">
                             {error}

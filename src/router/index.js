@@ -26,6 +26,10 @@ const routers = [
                 component: Login
             },
             {
+                path: "/signup",
+                component: Login
+            },
+            {
                 path: "/search",
                 component: Search
             },

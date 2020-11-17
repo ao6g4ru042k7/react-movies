@@ -3,15 +3,18 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Favorite from "@material-ui/icons/Favorite";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector,useDispatch } from 'react-redux'
-import * as actions from '../../store/actions'
+import { useSelector, useDispatch } from "react-redux";
+import * as actions from "../../store/actions";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 
 const createStyles = makeStyles((theme) => ({
     root: {
@@ -21,8 +24,8 @@ const createStyles = makeStyles((theme) => ({
         backgroundColor: "#6d0805",
         transition: "box-shadow .3s,background-color .3s",
     },
-    title:{
-        cursor:"pointer"
+    title: {
+        cursor: "pointer",
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -73,10 +76,17 @@ const Navigation = (props) => {
     });
     const classes = createStyles();
     const history = useHistory();
-    const isAuthenticated = useSelector(state=>state.auth.token!==null)
-    const dispatch = useDispatch()
+    const isAuthenticated = useSelector((state) => state.auth.token !== null);
+    const dispatch = useDispatch();
+    const [userAnchorEl, setUserAnchorEl] = useState(null);
+    const showUserMenu = (e) => {
+        setUserAnchorEl(e.currentTarget);
+    };
+    const hideUserMenu = () => {
+        setUserAnchorEl(null);
+    };
     useEffect(() => {
-        if (history.location.pathname === "/login") {
+        if (history.location.pathname === "/login" || history.location.pathname === "/signup") {
             setStyles({});
         } else {
             setStyles({
@@ -99,12 +109,17 @@ const Navigation = (props) => {
             };
         }
     }, [history.location.pathname]);
+
     return (
         <AppBar className={classes.appBar} style={styles} position="fixed">
             <Toolbar>
-                <Typography className={classes.title} onClick={()=>{
-                    history.push("/");
-                }} variant="h4" >
+                <Typography
+                    className={classes.title}
+                    onClick={() => {
+                        history.push("/");
+                    }}
+                    variant="h4"
+                >
                     Movies
                 </Typography>
                 <div className={classes.search}>
@@ -123,32 +138,65 @@ const Navigation = (props) => {
 
                 {isAuthenticated ? (
                     <>
-                        <IconButton
-                            // onClick={handleMenu}
-                            color="inherit"
-                        >
+                        <IconButton color="inherit">
                             <Favorite />
                         </IconButton>
                         <div>
                             <IconButton
-                                onClick={()=>{
-                                    dispatch(actions.logout())
+                                onClick={(e) => {
+                                    showUserMenu(e);
                                 }}
                                 color="inherit"
                             >
                                 <AccountCircle />
                             </IconButton>
+                            <Menu
+                                anchorEl={userAnchorEl}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(userAnchorEl)}
+                                onClose={hideUserMenu}
+                            >
+                                <MenuItem
+                                    onClick={() => {
+                                        dispatch(actions.logout());
+                                    }}
+                                >
+                                    Login Out
+                                </MenuItem>
+                            </Menu>
                         </div>
                     </>
                 ) : (
-                    <Button
-                        color="inherit"
-                        onClick={() => {
-                            history.push("/login");
-                        }}
-                    >
-                        Login
-                    </Button>
+                    <>
+                        <Box mr={1} clone>
+                            <Button
+                                variant="outlined"
+                                color="inherit"
+                                onClick={() => {
+                                    history.push("/login");
+                                }}
+                            >
+                                Login
+                            </Button>
+                        </Box>
+                        <Button
+                            variant="outlined"
+                            color="inherit"
+                            onClick={() => {
+                                history.push("/signup");
+                            }}
+                        >
+                            Sign Up
+                        </Button>
+                    </>
                 )}
             </Toolbar>
         </AppBar>
