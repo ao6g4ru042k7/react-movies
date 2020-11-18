@@ -1,9 +1,11 @@
+import React from 'react'
 import classes from "./banner.module.scss";
 import Button from "@material-ui/core/Button";
 import Details from "@material-ui/icons/Details";
 
+
 const banner = (props) => {
-    console.log(props.movieData);
+    console.log('banner',props.movieData);
     let view = <div>loading</div>;
     if (props.movieData) {
         const pic = (
@@ -19,10 +21,6 @@ const banner = (props) => {
                 />
             </picture>
         );
-        // let overview = props.movieData.overview;
-        // if (overview.length > 150) {
-        //     overview = overview.substr(0, 150) + "...";
-        // }
         const content = (
             <div className={classes.content}>
                 <h2>{props.movieData.title}</h2>
@@ -53,4 +51,4 @@ const banner = (props) => {
     return view;
 };
 
-export default banner;
+export default React.memo(banner);

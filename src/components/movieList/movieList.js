@@ -1,3 +1,4 @@
+import React from 'react'
 import MoviesSwipper from "./moviesSwipper/moviesSwipper";
 import classes from "./movieList.module.scss";
 
@@ -11,4 +12,4 @@ const movieList = ({ moviesData, title }) => {
     );
 };
 
-export default movieList;
+export default React.memo(movieList);

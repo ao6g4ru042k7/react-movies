@@ -3,10 +3,11 @@ import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import {useHistory} from 'react-router-dom'
 
-const movieBox = ({ data }) => {
+const MovieBox = ({ data }) => {
+    const history = useHistory()
     return (
         <>
-            <div className={classes["movies-box"]}>
+            <div className={classes["movies-box"]} onClick={()=>{history.push('/detail/'+data.id)}}>
                 <img src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} width="100%" height="100%" alt={data.title} />
                 <div className={classes.content}>
                     <h3>簡介</h3>
@@ -25,4 +26,4 @@ const movieBox = ({ data }) => {
         </>
     );
 };
-export default movieBox;
+export default MovieBox;
