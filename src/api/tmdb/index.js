@@ -39,5 +39,15 @@ const api = {
             params: commonParams,
         });
     },
+    search(query, page = 1) {
+        return axios.get(`/search/movie`, {
+            params: {
+                ...commonParams,
+                // include_adult: true,
+                query,
+                page,
+            },
+        });
+    },
 };
 export default api;

@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+// import $api from "../../api/tmdb";
 
 const createStyles = makeStyles((theme) => ({
     root: {
@@ -37,9 +38,7 @@ const createStyles = makeStyles((theme) => ({
         },
         margin: theme.spacing(0, "auto"),
         width: "100%",
-        // display: "none",
         [theme.breakpoints.up("sm")]: {
-            // display: "block",
             width: "auto",
         },
     },
@@ -88,6 +87,7 @@ const Navigation = (props) => {
     const isAuthenticated = useSelector((state) => state.auth.token !== null);
     const dispatch = useDispatch();
     const [userAnchorEl, setUserAnchorEl] = useState(null);
+    const [searchValue, setSearchValue] = useState("");
     const showUserMenu = (e) => {
         setUserAnchorEl(e.currentTarget);
     };
@@ -95,10 +95,7 @@ const Navigation = (props) => {
         setUserAnchorEl(null);
     };
     useEffect(() => {
-        if (
-            history.location.pathname === "/login" ||
-            history.location.pathname === "/signup"
-        ) {
+        if (history.location.pathname === "/login" || history.location.pathname === "/signup" ||history.location.pathname === "/search") {
             setStyles({});
         } else {
             setStyles({
@@ -122,6 +119,30 @@ const Navigation = (props) => {
         }
     }, [history.location.pathname]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (searchValue) {
+                if(history.location.pathname === '/search'){
+                    history.replace(`/search?query=${searchValue}`)
+
+                }else{
+                    history.push(`/search?query=${searchValue}`)
+                }
+            }else{
+                if(history.location.pathname === '/search'){
+                    history.goBack()
+                }
+            }
+        }, 500);
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [searchValue]);
+
+    const searchHandler = (e) => {
+        setSearchValue(e.target.value);
+    };
+
     return (
         <AppBar className={classes.appBar} style={styles} position="fixed">
             <Toolbar>
@@ -138,7 +159,6 @@ const Navigation = (props) => {
                     <div className={classes.searchIcon}>
                         <SearchIcon />
                     </div>
-
                     <InputBase
                         placeholder="Search…"
                         classes={{
@@ -146,6 +166,7 @@ const Navigation = (props) => {
                             input: classes.inputInput,
                         }}
                         inputProps={{ "aria-label": "search" }}
+                        onChange={searchHandler}
                     />
                 </div>
 

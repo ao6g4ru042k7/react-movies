@@ -6,7 +6,7 @@ import {useHistory} from 'react-router-dom'
 const MovieBox = ({ data }) => {
     const history = useHistory()
     return (
-        <>
+        <div style={{width:"min-content"}}>
             <div className={classes["movies-box"]} onClick={()=>{history.push('/detail/'+data.id)}}>
                 <img src={`https://image.tmdb.org/t/p/w500${data.poster_path}`} width="100%" height="100%" alt={data.title} />
                 <div className={classes.content}>
@@ -23,7 +23,7 @@ const MovieBox = ({ data }) => {
                 </div>
             </div>
             <h3 className={classes.title}>{data.title}</h3>
-        </>
+        </div>
     );
 };
 export default MovieBox;

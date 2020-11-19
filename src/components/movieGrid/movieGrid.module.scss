@@ -1,0 +1,11 @@
+.movieGrid{
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    row-gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    @media screen and (max-width: 750px) {
+        padding: 0px;
+    }
+}

@@ -33,10 +33,10 @@ const Home = () => {
         <div className={classes.home}>
             <Banner movieData={movieListDatas.nowPlaying[0]} />
             <div className={classes.content}>
-                <MovieList title="上映中" moviesData={movieListDatas.nowPlaying} />
-                <MovieList title="即將上映" moviesData={movieListDatas.upcoming} />
-                <MovieList title="熱門選擇" moviesData={movieListDatas.popular} />
-                <MovieList title="最高評分" moviesData={movieListDatas.topRated} />
+                <MovieList id="m1" title="上映中" moviesData={movieListDatas.nowPlaying} />
+                <MovieList id="m2" title="即將上映" moviesData={movieListDatas.upcoming} />
+                <MovieList id="m3" title="熱門選擇" moviesData={movieListDatas.popular} />
+                <MovieList id="m4" title="最高評分" moviesData={movieListDatas.topRated} />
             </div>
         </div>
     );
