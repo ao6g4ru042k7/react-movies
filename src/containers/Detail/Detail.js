@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import $api from "../../api/tmdb";
 import classes from "./Detail.module.scss";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
+import styled from 'styled-components';
 
 const Detail = () => {
     const { id } = useParams();
@@ -26,8 +24,17 @@ const Detail = () => {
                 backgroundPosition: "center",
             },
         };
+        const BgDiv = styled.div`
+            background-image: linear-gradient(rgba(0,0,0,.85) 15%,rgba(0,0,0,.2) 40%,#000 90%),url(https://image.tmdb.org/t/p/original${movieData.backdrop_path});
+            background-size: cover;
+            background-position: center;
+            @media screen and(max-width: 850px) {
+                background-image: url(https://image.tmdb.org/t/p/original${movieData.backdrop_path});
+            }
+        `
         ren = (
-            <div className={classes.detail} style={styles.bg}>
+            // <div className={classes.detail} style={styles.bg}>
+            <BgDiv className={classes.detail}>
                 <div className={classes.box}>
                     <div className={classes.img}>
                         <img src={`https://image.tmdb.org/t/p/original${movieData.poster_path}`} alt={movieData.title} />
@@ -61,7 +68,7 @@ const Detail = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </BgDiv>
         );
     }
     return ren;

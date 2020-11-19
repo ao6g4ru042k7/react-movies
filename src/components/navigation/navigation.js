@@ -9,7 +9,7 @@ import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Favorite from "@material-ui/icons/Favorite";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions";
@@ -26,9 +26,7 @@ const createStyles = makeStyles((theme) => ({
     },
     title: {
         cursor: "pointer",
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: "8px",
     },
     search: {
         position: "relative",
@@ -39,7 +37,9 @@ const createStyles = makeStyles((theme) => ({
         },
         margin: theme.spacing(0, "auto"),
         width: "100%",
+        // display: "none",
         [theme.breakpoints.up("sm")]: {
+            // display: "block",
             width: "auto",
         },
     },
@@ -51,16 +51,25 @@ const createStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        [theme.breakpoints.down("xs")]: {
+            display: "none",
+        },
+    },
+    signup: {
+        padding: "5px 30px",
+        [theme.breakpoints.up("sm")]: {
+            padding: "5px 15px",
+        },
     },
     inputRoot: {
         color: "inherit",
     },
     inputInput: {
-        padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        padding: theme.spacing(1, 1, 1, 1),
         transition: theme.transitions.create("width"),
         width: "100%",
         [theme.breakpoints.up("sm")]: {
+            paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
             width: "25ch",
             "&:focus": {
                 width: "40ch",
@@ -86,7 +95,10 @@ const Navigation = (props) => {
         setUserAnchorEl(null);
     };
     useEffect(() => {
-        if (history.location.pathname === "/login" || history.location.pathname === "/signup") {
+        if (
+            history.location.pathname === "/login" ||
+            history.location.pathname === "/signup"
+        ) {
             setStyles({});
         } else {
             setStyles({
@@ -126,6 +138,7 @@ const Navigation = (props) => {
                     <div className={classes.searchIcon}>
                         <SearchIcon />
                     </div>
+
                     <InputBase
                         placeholder="Search…"
                         classes={{
@@ -176,13 +189,14 @@ const Navigation = (props) => {
                     </>
                 ) : (
                     <>
-                        <Box mr={1} clone>
+                        <Box mx={1} clone>
                             <Button
                                 variant="outlined"
                                 color="inherit"
                                 onClick={() => {
                                     history.push("/login");
                                 }}
+                                style={{ whiteSpace: "nowrap" }}
                             >
                                 Login
                             </Button>
@@ -190,6 +204,8 @@ const Navigation = (props) => {
                         <Button
                             variant="outlined"
                             color="inherit"
+                            className={classes.signup}
+                            style={{ whiteSpace: "nowrap" }}
                             onClick={() => {
                                 history.push("/signup");
                             }}
