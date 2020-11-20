@@ -23,15 +23,13 @@ const Search = () => {
         });
     }, [query]);
 
-    const moreHandler = () => {
-        if (page < totalPages) {
-            $api.search(query, page + 1).then((res) => {
-                setMoviesData((prevState) => {
-                    return [...prevState, ...res.data.results];
-                });
-            });
-            setPage(page + 1);
-        }
+    const changePageHandler = (event, value) => {
+        console.log(111)
+        console.log(value)
+        $api.search(query, value).then((res) => {
+            setMoviesData(res.data.results);
+            
+        });
     };
 
     return (
@@ -40,7 +38,12 @@ const Search = () => {
                 <h3 className={classes.title}>搜索關鍵字 {query}</h3>
                 <MovieGrid moviesData={moviesData} />
             </div>
-            <Pagination />
+            <div className={classes.pag}>
+                <Pagination
+                    count={totalPages}
+                    onChangePage={changePageHandler}
+                />
+            </div>
         </div>
     );
 };
