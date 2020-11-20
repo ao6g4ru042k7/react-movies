@@ -1,7 +1,8 @@
-import { put, delay, takeEvery } from "redux-saga/effects";
+import { put, delay, takeEvery, select, call } from "redux-saga/effects";
 import * as actionTypes from "../actionTypes";
 import * as actions from "../actions/index";
 import axios from "axios";
+import firebaseAxios from "../../api/firebase/index";
 
 function* logoutSaga() {
     yield localStorage.removeItem("token");
@@ -34,6 +35,11 @@ function* authUserSaga(action) {
         yield localStorage.setItem("userId", response.data.localId);
         yield put(actions.authSuccess(response.data.idToken, response.data.localId));
         yield put(actions.checkAuthTimeout(response.data.expiresIn));
+        if (action.isSignup) {
+            yield put(actions.createMovieList());
+        } else {
+            yield put(actions.getMovieList());
+        }
     } catch (err) {
         yield put(actions.authFail(err.response.data.error.message));
     }

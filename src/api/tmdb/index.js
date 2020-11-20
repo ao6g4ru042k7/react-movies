@@ -1,5 +1,5 @@
 import axios from "./request";
-import { apiKey } from "./base";
+import { apiKey, sessionId } from "./base";
 const commonParams = {
     api_key: apiKey,
     language: "zh-TW",
@@ -48,6 +48,22 @@ const api = {
                 page,
             },
         });
+    },
+    createList() {
+        return axios.post(
+            `/list`,
+            {
+                name: "This is my awesome test list.",
+                description: "Just an awesome test list dawg."+Math.random(),
+                language: "zh-TW",
+            },
+            {
+                params: {
+                    api_key: apiKey,
+                    session_id: sessionId,
+                },
+            }
+        );
     },
 };
 export default api;

@@ -4,12 +4,15 @@ import * as actions from "../../store/actions";
 import MovieList from "../../components/movieList/movieList";
 import classes from "./Home.module.scss";
 import Banner from "../../components/banner/banner";
+import Footer from "../../components/UI/footer/footer"
 
 const Home = () => {
     const movieListDatas = useSelector((state) => state.movie.allData);
     const dispatch = useDispatch();
+    // useEffect(() => {
+    //     dispatch(actions.createMovieList());
+    // }, []);
     useEffect(() => {
-        // dispatch(actions.getLatestMovie());
         if (movieListDatas.nowPlaying.length === 0) {
             dispatch(actions.getNowPlayingMovies());
         }
@@ -38,6 +41,7 @@ const Home = () => {
                 <MovieList id="m3" title="熱門選擇" moviesData={movieListDatas.popular} />
                 <MovieList id="m4" title="最高評分" moviesData={movieListDatas.topRated} />
             </div>
+            <Footer style={{position:"absolute",bottom:"0",left:"0",right:"0"}}/>
         </div>
     );
 };

@@ -61,3 +61,14 @@ export const getUpcomingMovies = (movies) => {
         movies,
     };
 };
+export const createMovieList = () => {
+    return {
+        type: actionTypes.MOVIE_LIST_CREATE,
+    };
+};
+
+export const getMovieList = () => {
+    return {
+        type: actionTypes.MOVIE_LIST_GET,
+    };
+};

@@ -1,9 +1,7 @@
 import * as actionTypes from "../actionTypes";
 
 const initailState = {
-    latestData :{
-        
-    },
+    favList:[],
     allData: {
         nowPlaying: [],
         popular: [],

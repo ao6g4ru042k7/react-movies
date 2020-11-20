@@ -95,7 +95,10 @@ const Navigation = (props) => {
         setUserAnchorEl(null);
     };
     useEffect(() => {
-        if (history.location.pathname === "/login" || history.location.pathname === "/signup" ||history.location.pathname === "/search") {
+        if (history.location.pathname !== "/search") {
+            setSearchValue("");
+        }
+        if (history.location.pathname === "/login" || history.location.pathname === "/signup" || history.location.pathname === "/search") {
             setStyles({});
         } else {
             setStyles({
@@ -122,15 +125,14 @@ const Navigation = (props) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             if (searchValue) {
-                if(history.location.pathname === '/search'){
-                    history.replace(`/search?query=${searchValue}`)
-
-                }else{
-                    history.push(`/search?query=${searchValue}`)
+                if (history.location.pathname === "/search") {
+                    history.replace(`/search?query=${searchValue}`);
+                } else {
+                    history.push(`/search?query=${searchValue}`);
                 }
-            }else{
-                if(history.location.pathname === '/search'){
-                    history.goBack()
+            } else {
+                if (history.location.pathname === "/search") {
+                    history.goBack();
                 }
             }
         }, 500);
@@ -167,6 +169,7 @@ const Navigation = (props) => {
                         }}
                         inputProps={{ "aria-label": "search" }}
                         onChange={searchHandler}
+                        value={searchValue}
                     />
                 </div>
 

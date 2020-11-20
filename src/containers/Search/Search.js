@@ -4,6 +4,7 @@ import $api from "../../api/tmdb";
 import MovieGrid from "../../components/movieGrid/movieGrid";
 import classes from "./Search.module.scss";
 import Pagination from "../../components/UI/pagination/pagination";
+import Footer from "../../components/UI/footer/footer"
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -13,22 +14,20 @@ const Search = () => {
     const [moviesData, setMoviesData] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    console.log(query);
+    // console.log(query);
     useEffect(() => {
         $api.search(query).then((res) => {
-            console.log(res.data.results);
-            console.log(res);
+            // console.log(res.data.results);
+            // console.log(res);
             setMoviesData(res.data.results);
             setTotalPages(res.data.total_pages);
         });
     }, [query]);
 
     const changePageHandler = (event, value) => {
-        console.log(111)
-        console.log(value)
+        // console.log(value);
         $api.search(query, value).then((res) => {
             setMoviesData(res.data.results);
-            
         });
     };
 
@@ -38,12 +37,12 @@ const Search = () => {
                 <h3 className={classes.title}>搜索關鍵字 {query}</h3>
                 <MovieGrid moviesData={moviesData} />
             </div>
-            <div className={classes.pag}>
-                <Pagination
-                    count={totalPages}
-                    onChangePage={changePageHandler}
-                />
-            </div>
+            {totalPages > 1 ? (
+                <div className={classes.pag}>
+                    <Pagination count={totalPages} onChangePage={changePageHandler} />
+                </div>
+            ) : null}
+            <Footer style={{position:"absolute",bottom:"0",left:"0",right:"0"}}/>
         </div>
     );
 };

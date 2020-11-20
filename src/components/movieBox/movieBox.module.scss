@@ -36,6 +36,7 @@
         top: -55px;
         right: -55px;
         background-color: #ef352c;
+        // background-color: white;
         opacity: 0;
         transition: all 0.3s;
         clip-path: polygon(100% 0, 0 0, 100% 100%);
@@ -46,6 +47,7 @@
             right: 1px;
             top: 1px;
             fill: white;
+            // fill: #ef352c;
         }
     }
     .content {
