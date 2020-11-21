@@ -54,8 +54,44 @@ const api = {
             `/list`,
             {
                 name: "This is my awesome test list.",
-                description: "Just an awesome test list dawg."+Math.random(),
+                description: "Just an awesome test list dawg." + Math.random(),
                 language: "zh-TW",
+            },
+            {
+                params: {
+                    api_key: apiKey,
+                    session_id: sessionId,
+                },
+            }
+        );
+    },
+    getFavList(list_id) {
+        return axios.get(`/list/${list_id}`, {
+            params: {
+                api_key: apiKey,
+                language: "zh-TW",
+            },
+        });
+    },
+    addItemToList(list_id, movieId) {
+        return axios.post(
+            `/list/${list_id}/add_item`,
+            {
+                media_id: movieId,
+            },
+            {
+                params: {
+                    api_key: apiKey,
+                    session_id: sessionId,
+                },
+            }
+        );
+    },
+    removeItemFromList(list_id, movieId) {
+        return axios.post(
+            `/list/${list_id}/remove_item`,
+            {
+                media_id: movieId,
             },
             {
                 params: {

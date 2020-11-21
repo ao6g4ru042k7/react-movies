@@ -3,16 +3,28 @@ import classes from "./banner.module.scss";
 import Button from "@material-ui/core/Button";
 import Details from "@material-ui/icons/Details";
 import { useHistory } from "react-router-dom";
+import defBgImg from "../../assets/default-bg.jpg";
 
 const Banner = (props) => {
     const history = useHistory();
-    console.log("banner", props.movieData);
+    // console.log("banner", props.movieData);
     let view = <div>loading</div>;
     if (props.movieData) {
         const pic = (
             <picture>
-                <source srcSet={`https://image.tmdb.org/t/p/w500${props.movieData.backdrop_path}`} media="(max-width: 750px)" />
-                <img className={classes.img} src={`https://image.tmdb.org/t/p/original${props.movieData.backdrop_path}`} alt={props.movieData.title} />
+                <source
+                    srcSet={`https://image.tmdb.org/t/p/w500${props.movieData.backdrop_path}`}
+                    media="(max-width: 750px)"
+                />
+                <img
+                    className={classes.img}
+                    src={
+                        props.movieData.backdrop_path
+                            ? `https://image.tmdb.org/t/p/original${props.movieData.backdrop_path}`
+                            : defBgImg
+                    }
+                    alt={props.movieData.title}
+                />
             </picture>
         );
         const content = (

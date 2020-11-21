@@ -4,13 +4,19 @@ import * as actions from "../../store/actions";
 import MovieList from "../../components/movieList/movieList";
 import classes from "./Home.module.scss";
 import Banner from "../../components/banner/banner";
-import Footer from "../../components/UI/footer/footer"
+import Footer from "../../components/UI/footer/footer";
+import $api from '../../api/tmdb'
 
 const Home = () => {
     const movieListDatas = useSelector((state) => state.movie.allData);
     const dispatch = useDispatch();
     // useEffect(() => {
-    //     dispatch(actions.createMovieList());
+    //     console.log(11111111111111111111111111111)
+    //     $api.getFavList(7065599).then(res=>{
+    //     console.log(222222222222222222222)
+
+    //         console.log(res)
+    //     })
     // }, []);
     useEffect(() => {
         if (movieListDatas.nowPlaying.length === 0) {

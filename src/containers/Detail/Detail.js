@@ -3,7 +3,22 @@ import { useParams } from "react-router-dom";
 import $api from "../../api/tmdb";
 import classes from "./Detail.module.scss";
 import styled from "styled-components";
+import defBgImg from "../../assets/default-bg.jpg";
+import defImg from "../../assets/default.png";
 
+const BgDiv = styled.div`
+    background-image: linear-gradient(
+            rgba(0, 0, 0, 0.85) 15%,
+            rgba(0, 0, 0, 0.2) 40%,
+            #000 90%
+        ),
+        url(${(props) => props.backdropPath});
+    background-size: cover;
+    background-position: center;
+    @media screen and(max-width: 850px) {
+        background-image: url(${(props) => props.backdropPath});
+    }
+`;
 const Detail = () => {
     const { id } = useParams();
     const [movieData, setMovieData] = useState(null);
@@ -11,25 +26,32 @@ const Detail = () => {
     useEffect(() => {
         $api.detail(id).then((res) => {
             setMovieData(res.data);
-            console.log(res.data);
+            // console.log(res.data);
         });
     }, [id]);
-    const BgDiv = styled.div`
-        background-image: linear-gradient(rgba(0, 0, 0, 0.85) 15%, rgba(0, 0, 0, 0.2) 40%, #000 90%), url(https://image.tmdb.org/t/p/original${(props) => props.backdropPath});
-        background-size: cover;
-        background-position: center;
-        @media screen and(max-width: 850px) {
-            background-image: url(https://image.tmdb.org/t/p/original${(props) => props.backdropPath}});
-        }
-    `;
+
     let ren = <></>;
 
     if (movieData) {
         ren = (
-            <BgDiv backdropPath={movieData.backdrop_path} className={classes.detail}>
+            <BgDiv
+                backdropPath={
+                    movieData.backdrop_path
+                        ? `https://image.tmdb.org/t/p/original${movieData.backdrop_path}`
+                        : defBgImg
+                }
+                className={classes.detail}
+            >
                 <div className={classes.box}>
                     <div className={classes.img}>
-                        <img src={`https://image.tmdb.org/t/p/original${movieData.poster_path}`} alt={movieData.title} />
+                        <img
+                            src={
+                                movieData.poster_path
+                                    ? `https://image.tmdb.org/t/p/original${movieData.poster_path}`
+                                    : defImg
+                            }
+                            alt={movieData.title}
+                        />
                     </div>
                     <div className={classes.content}>
                         <h2>{movieData.title}</h2>

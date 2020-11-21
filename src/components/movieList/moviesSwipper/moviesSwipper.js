@@ -17,7 +17,7 @@ const styled = {
 };
 
 const MoviesSwipper = ({ moviesData, id }) => {
-    console.log("moviesSwipper", moviesData);
+    // console.log("moviesSwipper", moviesData);
     const nextBtn = useRef(null);
     const prevBtn = useRef(null);
     return (

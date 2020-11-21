@@ -94,11 +94,17 @@ const Navigation = (props) => {
     const hideUserMenu = () => {
         setUserAnchorEl(null);
     };
+    // console.log("userAnchorEl",userAnchorEl)
     useEffect(() => {
+        // console.log(history);
         if (history.location.pathname !== "/search") {
             setSearchValue("");
         }
-        if (history.location.pathname === "/login" || history.location.pathname === "/signup" || history.location.pathname === "/search") {
+        if (
+            history.location.pathname === "/login" ||
+            history.location.pathname === "/signup" ||
+            history.location.pathname === "/search"
+        ) {
             setStyles({});
         } else {
             setStyles({
@@ -175,7 +181,12 @@ const Navigation = (props) => {
 
                 {isAuthenticated ? (
                     <>
-                        <IconButton color="inherit">
+                        <IconButton
+                            onClick={(e) => {
+                                history.push("/favorite");
+                            }}
+                            color="inherit"
+                        >
                             <Favorite />
                         </IconButton>
                         <div>
@@ -203,6 +214,7 @@ const Navigation = (props) => {
                             >
                                 <MenuItem
                                     onClick={() => {
+                                        hideUserMenu();
                                         dispatch(actions.logout());
                                     }}
                                 >

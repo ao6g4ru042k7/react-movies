@@ -12,7 +12,6 @@ function useQuery() {
 const Search = () => {
     const query = useQuery().get("query");
     const [moviesData, setMoviesData] = useState([]);
-    const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     // console.log(query);
     useEffect(() => {
@@ -25,8 +24,8 @@ const Search = () => {
     }, [query]);
 
     const changePageHandler = (event, value) => {
-        // console.log(value);
         $api.search(query, value).then((res) => {
+            window.scroll(0, 0)
             setMoviesData(res.data.results);
         });
     };
