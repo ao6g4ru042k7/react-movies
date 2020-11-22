@@ -43,7 +43,7 @@ const api = {
         return axios.get(`/search/movie`, {
             params: {
                 ...commonParams,
-                include_adult: true,
+                // include_adult: true,
                 query,
                 page,
             },
