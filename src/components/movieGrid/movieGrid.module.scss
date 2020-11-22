@@ -1,11 +1,13 @@
-.movieGrid{
+.movieGrid {
     padding: 12px;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 220px);
     column-gap: 12px;
     row-gap: 30px;
     justify-content: center;
-    flex-wrap: wrap;
+
     @media screen and (max-width: 750px) {
+        grid-template-columns: repeat(auto-fit, 100vw * 220 / 750);
         padding: 0px;
     }
 }
