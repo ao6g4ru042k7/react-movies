@@ -9,6 +9,7 @@ function* logoutSaga() {
     yield localStorage.removeItem("expirationDate");
     yield localStorage.removeItem("userId");
     yield localStorage.removeItem("listId");
+    yield put(actions.setFavMovies([]));
     yield put(actions.logoutSucceed());
 }
 

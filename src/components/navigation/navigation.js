@@ -15,7 +15,6 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-// import $api from "../../api/tmdb";
 
 const createStyles = makeStyles((theme) => ({
     root: {
@@ -88,6 +87,7 @@ const Navigation = (props) => {
     const dispatch = useDispatch();
     const [userAnchorEl, setUserAnchorEl] = useState(null);
     const [searchValue, setSearchValue] = useState("");
+    const pathname = history.location.pathname;
     const showUserMenu = (e) => {
         setUserAnchorEl(e.currentTarget);
     };
@@ -97,13 +97,13 @@ const Navigation = (props) => {
     // console.log("userAnchorEl",userAnchorEl)
     useEffect(() => {
         // console.log(history);
-        if (history.location.pathname !== "/search") {
+        if (!/\/detail\/[0-9]*/.test(pathname) && pathname !== "/search") {
             setSearchValue("");
         }
         if (
-            history.location.pathname === "/login" ||
-            history.location.pathname === "/signup" ||
-            history.location.pathname === "/search"
+            pathname === "/login" ||
+            pathname === "/signup" ||
+            pathname === "/search"
         ) {
             setStyles({});
         } else {
@@ -126,18 +126,22 @@ const Navigation = (props) => {
                 window.removeEventListener("scroll", navStyleHandler);
             };
         }
-    }, [history.location.pathname]);
-
+    }, [pathname]);
+    useEffect(() => {
+        if (pathname === "/favorite" && !isAuthenticated) {
+            history.replace("/");
+        }
+    }, [isAuthenticated, history,pathname]);
     useEffect(() => {
         const timer = setTimeout(() => {
             if (searchValue) {
-                if (history.location.pathname === "/search") {
+                if (pathname === "/search") {
                     history.replace(`/search?query=${searchValue}`);
                 } else {
                     history.push(`/search?query=${searchValue}`);
                 }
             } else {
-                if (history.location.pathname === "/search") {
+                if (pathname === "/search") {
                     history.goBack();
                 }
             }

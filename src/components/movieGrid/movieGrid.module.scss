@@ -1,7 +1,7 @@
 .movieGrid{
     padding: 12px;
     display: flex;
-    gap: 12px;
+    column-gap: 12px;
     row-gap: 30px;
     justify-content: center;
     flex-wrap: wrap;

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import classes from "./movieBox.module.scss";
-import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -18,29 +17,33 @@ const MovieBox = ({ data }) => {
     const fav = favSet.has(data.id);
     const favoriteHandler = (e) => {
         e.stopPropagation();
-        if (isAuthenticated && !isLoading) {
-            setIsLoading(true);
-            if (fav) {
-                dispatch(actions.removeFavMovie(data.id));
-                $api.removeItemFromList(listId, data.id)
-                    .then(() => {
-                        setIsLoading(false);
-                    })
-                    .catch(() => {
-                        dispatch(actions.addFavMovie(data.id, data));
-                        setIsLoading(false);
-                    });
-            } else {
-                dispatch(actions.addFavMovie(data.id, data));
-                $api.addItemToList(listId, data.id)
-                    .then(() => {
-                        setIsLoading(false);
-                    })
-                    .catch(() => {
-                        dispatch(actions.removeFavMovie(data.id));
-                        setIsLoading(false);
-                    });
+        if (isAuthenticated) {
+            if (!isLoading) {
+                setIsLoading(true);
+                if (fav) {
+                    dispatch(actions.removeFavMovie(data.id));
+                    $api.removeItemFromList(listId, data.id)
+                        .then(() => {
+                            setIsLoading(false);
+                        })
+                        .catch(() => {
+                            dispatch(actions.addFavMovie(data.id, data));
+                            setIsLoading(false);
+                        });
+                } else {
+                    dispatch(actions.addFavMovie(data.id, data));
+                    $api.addItemToList(listId, data.id)
+                        .then(() => {
+                            setIsLoading(false);
+                        })
+                        .catch(() => {
+                            dispatch(actions.removeFavMovie(data.id));
+                            setIsLoading(false);
+                        });
+                }
             }
+        }else{
+            dispatch(actions.setErrorMes("請登入帳號"))
         }
     };
     return (
